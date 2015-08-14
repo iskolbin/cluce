@@ -22,13 +22,17 @@ typedef enum {
 
 #define CLUCE_WIDGET_SIZE ((size_t)CLUCE_N_ATTRS)
 
+typedef struct CLuceFramesList {
+	CLuceAttr *frames;
+	int framesCount;
+} CLuceFramesList;
+
 struct CLuceWidget {
 	CLuceAttr attr[CLUCE_N_ATTRS];
 	CLuceAttr attrWld[CLUCE_N_ATTRS];
 	CLuceAttr frameIdx;
-	CLuceAttr *framesList;
-	int framesCount;
-	
+	CLuceFramesList *framesList;
+
 	struct CLuceBatch *batch;
 	size_t shift;
 	
@@ -38,15 +42,27 @@ struct CLuceWidget {
 	struct CLuceWidget *prev;
 };
 
+typedef struct CLuceAtlasFrame {
+	int rect[4];
+	int spriteRect[4];
+	int sourceSize[2];
+	int trimmed;
+	int rotated;	
+} CLuceAtlasFrame;
 
-struct CLuceBatch {
+typedef struct CLuceAtlas {
+	struct CLuceAtlasFrame *frames;
+	int framesAlloc;
+	int framesCount;
+} CLuceAtlas;
+
+typedef struct CLuceBatch {
 	struct CLuceWidget *widgets;
 	int widgetsCount;
 	int widgetsAlloc;
 	CLuceAttr *renderList;
-};
+} CLuceBatch;
 
 typedef struct CLuceWidget CLuceWidget;
-typedef struct CLuceBatch CLuceBatch;
 
 #endif

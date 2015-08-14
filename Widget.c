@@ -6,7 +6,6 @@ CLuceWidget * CLuceWidget_new( void ) {
 	//self->attrWld = NULL;
 	self->frameIdx = 0;
 	self->framesList = NULL;
-	self->framesCount = 0;
 	self->shift = 0;
 	self->parent = self->head = self->next = self->prev = NULL;
 	return self;

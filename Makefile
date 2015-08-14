@@ -1,5 +1,3 @@
-hg clone http://hg.libsdl.org/SDL
-
 CC = gcc
 CFLAGS = -I. $(shell sdl2-config --cflags)
 LDFLAGS = $(shell sdl2-config --libs)
