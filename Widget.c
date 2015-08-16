@@ -1,22 +1,5 @@
 #include "Widget.h"
 
-CLuceWidget * CLuceWidget_new( void ) {
-	CLuceWidget *self = malloc( sizeof *self );
-	//self->attr = NULL;
-	//self->attrWld = NULL;
-	self->frameIdx = 0;
-	self->framesList = NULL;
-	self->shift = 0;
-	self->parent = self->head = self->next = self->prev = NULL;
-	return self;
-}
-
-void CLuceWidget_delete( CLuceWidget *self ) {
-	if ( self != NULL ) {
-		free( self );
-	}
-}
-
 #define MAKE_ATTR_UPDATER(ATTR,OP)																	\
 	static void update_##ATTR( CLuceWidget *self ) {									\
 		CLuceWidget *ch = self->head; 																	\
@@ -47,7 +30,7 @@ void CLuceWidget_update( CLuceWidget *self, CLuceAttrName attr ) {
 	switch( attr ) {
 		case CLUCE_ATTR_X: update_CLUCE_ATTR_X( self ); break; 
 		case CLUCE_ATTR_Y: update_CLUCE_ATTR_Y( self ); break;
-		//case CLUCE_ATTR_FRAME: update_CLUCE_ATTR_FRAME( self ); break;
+		case CLUCE_ATTR_FRAME: /*update_CLUCE_ATTR_FRAME( self );*/ break;
 		case CLUCE_ATTR_XSCL: update_CLUCE_ATTR_XSCL( self ); break;
 		case CLUCE_ATTR_YSCL: update_CLUCE_ATTR_YSCL( self ); break;
 		case CLUCE_ATTR_ROT: update_CLUCE_ATTR_ROT( self ); break;

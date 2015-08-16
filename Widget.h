@@ -5,11 +5,17 @@
 #include <string.h>
 #include "Types.h"
 
-#define CLuceWidget_get(self,attr) ((self)->attr[(attr)])
+#define CLuceWidget_get(self,key) ((self)->attr[(key)])
 
-#define CLuceWidget_set(self,attr,value) \
-	((self)->attr[(attr)]=value); \
-	CLuce_update((self),(attr))	
+#define CLuceWidget_set(self,key,value) \
+	if ((self)->attr[(key)] != (value)) {	\
+		(self)->attr[(key)]=value; 					\
+		(self)->batch->altered = 1;					\
+		CLuceWidget_update((self),(key));		\
+	}																			\
+
+#define CLuceWidget_add(self,key,value)						\
+	CLuceWidget_set((self),(key),(self)->attr[(key)]+(value));\
 
 #define CLuceWidget_setPos(self,x,y) \
 	CLuceWidget_set((self),CLUCE_ATTR_X,(x)); \
@@ -38,10 +44,7 @@
 
 #define CLuceWidget_setRot(self,rot) CLuceWidget_set((self),CLUCE_ATTR_ROT,(rot))
 
-CLuceWidget * CLuceWidget_new( void );
-void CLuceWidget_delete( CLuceWidget *self );
 void CLuceWidget_update( CLuceWidget *self, CLuceAttrName attr );
 void CLuceWidget_setParent( CLuceWidget *self, CLuceWidget *parent );
-//CLuceTween *CLuceWidget_move( CLuceWidget *self, CLuceAttrName attr, CLuceAttr value, CLuceTweenTime length, CLuceTweenEase ease, CLuceTweenAfter after ); 
 
 #endif

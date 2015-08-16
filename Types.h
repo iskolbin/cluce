@@ -1,6 +1,10 @@
 #ifndef CLUCE_TYPES_H_
 #define CLUCE_TYPES_H_
 
+#include <stdlib.h>
+#include <stdio.h>
+#include "DynamicArray.h"
+
 typedef float CLuceAttr;
 
 typedef enum {
@@ -17,52 +21,50 @@ typedef enum {
 	CLUCE_ATTR_BLUE,
 	CLUCE_ATTR_ALPHA,
 
-	CLUCE_N_ATTRS,
 } CLuceAttrName;
+
+#define CLUCE_N_ATTRS (CLUCE_ATTR_ALPHA+1)
 
 #define CLUCE_WIDGET_SIZE ((size_t)CLUCE_N_ATTRS)
 
+typedef enum {
+	CLUCE_FRAME_TRIMMED,
+	CLUCE_FRAME_ROTATED,
+} CLuceFrameFlag;
+
+typedef struct CLuceFrame {
+	int id;
+	int x;
+	int y;
+	int w;
+	int h;
+	int xoffset;
+	int yoffset;
+	CLuceFrameFlag flags;	
+} CLuceFrame;
+
 typedef struct CLuceFramesList {
-	CLuceAttr *frames;
-	int framesCount;
+	DYNAMIC_ARRAY_DECLARE(frames,CLuceFrame);
 } CLuceFramesList;
 
 struct CLuceWidget {
 	CLuceAttr attr[CLUCE_N_ATTRS];
 	CLuceAttr attrWld[CLUCE_N_ATTRS];
-	CLuceAttr frameIdx;
 	CLuceFramesList *framesList;
-
 	struct CLuceBatch *batch;
-	size_t shift;
-	
 	struct CLuceWidget *parent;
 	struct CLuceWidget *head;
 	struct CLuceWidget *next;
 	struct CLuceWidget *prev;
 };
 
-typedef struct CLuceAtlasFrame {
-	int rect[4];
-	int spriteRect[4];
-	int sourceSize[2];
-	int trimmed;
-	int rotated;	
-} CLuceAtlasFrame;
-
-typedef struct CLuceAtlas {
-	struct CLuceAtlasFrame *frames;
-	int framesAlloc;
-	int framesCount;
-} CLuceAtlas;
-
-typedef struct CLuceBatch {
-	struct CLuceWidget *widgets;
-	int widgetsCount;
-	int widgetsAlloc;
-	CLuceAttr *renderList;
-} CLuceBatch;
+#define CLUCE_WIDGET_STRUCT_INITIALIZER(batch,framesList) {{0,0,0,1,1,0,0,0,1,1,1,1},{0,0,0,1,1,0,0,0,1,1,1,1},(framesList),(batch),NULL,NULL,NULL,NULL}
 
 typedef struct CLuceWidget CLuceWidget;
+
+typedef struct CLuceBatch {
+	DYNAMIC_ARRAY_DECLARE(widgets,CLuceWidget);	
+	int altered;
+} CLuceBatch;
 
 #endif

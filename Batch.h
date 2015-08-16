@@ -5,7 +5,9 @@
 #include <stdlib.h>
 #include "Types.h"
 
-CLuceBatch *CLuceBatch_new( int prealloc );
+CLuceBatch *CLuceBatch_new( size_t widgetsAlloc );
+
 void CLuceBatch_delete( CLuceBatch *self );
+CLuceWidget *CLuceBatch_createWidget( CLuceBatch *self, CLuceFramesList *frames );
 
 #endif
